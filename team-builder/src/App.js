@@ -26,13 +26,14 @@ function App() {
 
   const handleChange = (event) => {
     setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
+    // setTeamMember( [...membersList, teamMember])
     console.log('role set', teamMember);
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('role', teamMember);
-    setMembersList({ ...membersList, [Object.keys(teamMember).length]: teamMember})
+    setMembersList([ ...membersList, teamMember])
   }
 
 
@@ -88,8 +89,8 @@ function App() {
         <h1>List of members</h1>
         {membersList && membersList.map((member, index) => {
           return (
-            <div className='team-member'>
-              <h2 key={index}>Name: {member.name}</h2>
+            <div key={index} className='team-member'>
+              <h2>Name: {member.name}</h2>
               <h4> Email: {member.email}</h4>
               <h4> Role: {member.role}</h4>
             </div>
