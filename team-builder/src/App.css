@@ -31,3 +31,12 @@
     transform: rotate(360deg);
   }
 }
+
+.team-members {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.team-member {
+  border: 1px solid salmon;
+  margin: 20px;
+}
