@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import Form from './Form.js';
+import Form from './components/Form.js';
+import Member from './components/Member.js';
 
 import data from './data.js';
 import styled from 'styled-components';
@@ -13,87 +14,59 @@ const HeaderStyle = styled.h1`
   padding: 20px;
 `;
 
+const emptyForm = {
+  name: '',
+  email: '',
+  role: ''
+}
+
 function App() {
 
-  const [teamMember, setTeamMember] = useState({
-    name: '',
-    email: '',
-    role: ''
-  });
+  const [teamMember, setTeamMember] = useState(emptyForm);
   const [membersList, setMembersList] = useState(data);
   console.log(membersList);
   // const [teamMember, setTeamMember] = useState('');
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
     // setTeamMember( [...membersList, teamMember])
     console.log('role set', teamMember);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    console.log('role', teamMember);
+    // console.log('role', teamMember);
     setMembersList([ ...membersList, teamMember])
+    setTeamMember(emptyForm)
   }
 
-
+  const [memberToEdit, setMemberToEdit] = useState();
+  const editMember = event => {
+    // setMemberToEdit(member)
+    setTeamMember(event)
+    console.log('this wants to be edited', event)
+  }
 
   return (
     <div className="App">
-      {/* <header className="App-header"> */}
-        <HeaderStyle>Sign up to be part of the team!</HeaderStyle>
-        {/* <Form teamMember={teamMember} setTeamMember={setTeamMember} /> */}
-      {/* </header> */}
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <legend>Sign-up</legend>
-          <div className='name'>
-            <label>
-              Name:
-                <input
-                type='text'
-                name='name'
-                placeholder='Name'
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div className='email'>
-            <label>
-              Email:
-                <input
-                type='text'
-                name='email'
-                placeholder='Email Address'
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div className='role'>
-            <label>
-              Role:
-                <input
-                type='text'
-                name='role'
-                placeholder='What is Your Role?'
-                // id='role' 
-                // value={teamMember} 
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <button>Add Member!</button>
-        </fieldset>
-      </form> 
+      <HeaderStyle>Sign up to be part of the team!</HeaderStyle>
+      <Form 
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        teamMember={teamMember}
+        // setTeamMember={setTeamMember}
+        // membersList={membersList}
+        // setMembersList={setMembersList}
+      />
       <div className='team-members'>
         <h1>List of members</h1>
         {membersList && membersList.map((member, index) => {
           return (
-            <div key={index} className='team-member'>
-              <h2>Name: {member.name}</h2>
-              <h4> Email: {member.email}</h4>
-              <h4> Role: {member.role}</h4>
-            </div>
+            <Member 
+              key={index}
+              member={member}
+              editMember={editMember}
+            />
           )
         })}
       </div>

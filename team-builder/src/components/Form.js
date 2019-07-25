@@ -3,19 +3,20 @@ import React from 'react';
 // Form function
 
 export default function Form(props) {
-  const [teamMember, setTeamMember] = props;
+  // const {handleChange, handleSubmit, teamMember, setTeamMember, membersList, setMembersList} = props;
+  const { handleChange, handleSubmit, teamMember} = props;
 
-  console.log('teamMember in Form', teamMember)
+  // console.log('teamMember in Form', teamMember)
 
-  const handleChange = (event) => {
-    setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
-    console.log('role set', teamMember);
-  }
+  // const handleChange = (event) => {
+  //   setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
+  //   console.log('role set', teamMember);
+  // }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('role', teamMember);
-  }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   console.log('role', teamMember);
+  // }
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
@@ -23,10 +24,11 @@ export default function Form(props) {
         <div className='name'>
           <label>
             Name:
-                <input
+            <input
               type='text'
               name='name'
               placeholder='Name'
+              value={teamMember.name}
               onChange={handleChange}
             />
           </label>
@@ -34,10 +36,11 @@ export default function Form(props) {
         <div className='email'>
           <label>
             Email:
-                <input
+            <input
               type='text'
               name='email'
               placeholder='Email Address'
+              value={teamMember.email} 
               onChange={handleChange}
             />
           </label>
@@ -45,18 +48,17 @@ export default function Form(props) {
         <div className='role'>
           <label>
             Role:
-                <input
+            <input
               type='text'
               name='role'
               placeholder='What is Your Role?'
               // id='role' 
-              // value={teamMember} 
+              value={teamMember.role} 
               onChange={handleChange}
             />
           </label>
         </div>
-
-        <button>Submit!</button>
+        <button>Add Member!</button>
       </fieldset>
     </form>
   )
