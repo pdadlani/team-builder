@@ -3,22 +3,18 @@ import React from 'react';
 // Form function
 
 export default function Form(props) {
-  // const {handleChange, handleSubmit, teamMember, setTeamMember, membersList, setMembersList} = props;
-  const { handleChange, handleSubmit, teamMember} = props;
+  // const {handleChange, handleSubmit, member, setMember, membersList, setMembersList} = props;
+  const { handleChange, handleSubmit, member, isEditing} = props;
 
-  // console.log('teamMember in Form', teamMember)
+  const myOnSubmit = (event) => {
+    // const newMember = {...member, ...event.target}
+    event.preventDefault();
+    console.log('event', event);
+    handleSubmit(member.id)
+  }
 
-  // const handleChange = (event) => {
-  //   setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
-  //   console.log('role set', teamMember);
-  // }
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log('role', teamMember);
-  // }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={ (formData) => myOnSubmit(formData)}>
       <fieldset>
         <legend>Sign-up</legend>
         <div className='name'>
@@ -28,7 +24,7 @@ export default function Form(props) {
               type='text'
               name='name'
               placeholder='Name'
-              value={teamMember.name}
+              value={member.name}
               onChange={handleChange}
             />
           </label>
@@ -40,7 +36,7 @@ export default function Form(props) {
               type='text'
               name='email'
               placeholder='Email Address'
-              value={teamMember.email} 
+              value={member.email} 
               onChange={handleChange}
             />
           </label>
@@ -53,12 +49,12 @@ export default function Form(props) {
               name='role'
               placeholder='What is Your Role?'
               // id='role' 
-              value={teamMember.role} 
+              value={member.role} 
               onChange={handleChange}
             />
           </label>
         </div>
-        <button>Add Member!</button>
+        <button>{isEditing ? 'Edit Member!' : 'Add Member!'}</button>
       </fieldset>
     </form>
   )

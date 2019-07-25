@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Form from './components/Form.js';
 import Member from './components/Member.js';
@@ -17,34 +16,53 @@ const HeaderStyle = styled.h1`
 const emptyForm = {
   name: '',
   email: '',
-  role: ''
+  role: '',
+  id: null
 }
 
 function App() {
 
-  const [teamMember, setTeamMember] = useState(emptyForm);
+  const [member, setMember] = useState(emptyForm);
   const [membersList, setMembersList] = useState(data);
-  console.log(membersList);
-  // const [teamMember, setTeamMember] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  // console.log(membersList);
 
   const handleChange = event => {
-    setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
-    // setTeamMember( [...membersList, teamMember])
-    console.log('role set', teamMember);
+    setMember({ ...member, [event.target.name]: event.target.value });
+    // setMember( [...membersList, member])
+    console.log('rossle set', member);
   }
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    // console.log('role', teamMember);
-    setMembersList([ ...membersList, teamMember])
-    setTeamMember(emptyForm)
+  const handleSubmit = memberId => {
+    // console.log('member as newMember', memberId);
+    console.log(isEditing);
+    if (isEditing) {
+      console.log('membersList', membersList);
+      const updatedList = membersList.map(item => {
+        console.log('item.id', item.id)
+        console.log('memberId.id', memberId);
+        if (item.id === memberId) {
+          setIsEditing(false);
+          return member;
+        } else {
+          return item;
+        }
+        // console.log('item in handleSubmit isEditing', item);
+      })
+      console.log('updatedList', updatedList);
+      setMembersList(updatedList)
+    } else {
+      setMembersList([ ...membersList, {...member, id: membersList.length}])
+    }
+    setMember(emptyForm)
   }
 
   const [memberToEdit, setMemberToEdit] = useState();
-  const editMember = event => {
-    // setMemberToEdit(member)
-    setTeamMember(event)
-    console.log('this wants to be edited', event)
+  const editMember = member => {
+    setMemberToEdit(member)
+    setIsEditing(true)
+    setMember(member)
+    console.log('this wants to be edited', member)
   }
 
   return (
@@ -53,8 +71,9 @@ function App() {
       <Form 
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        teamMember={teamMember}
-        // setTeamMember={setTeamMember}
+        member={member}
+        isEditing={isEditing}
+        // setMember={setMember}
         // membersList={membersList}
         // setMembersList={setMembersList}
       />
@@ -64,6 +83,7 @@ function App() {
           return (
             <Member 
               key={index}
+              id={index}
               member={member}
               editMember={editMember}
             />
